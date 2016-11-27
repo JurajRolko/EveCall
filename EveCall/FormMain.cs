@@ -868,6 +868,8 @@ namespace EveCall
             DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
+                progressBarDirSelect.Visible = true;
+                Application.DoEvents();
                 bool combatLogFilesExist = false;
                 string folderName = folderBrowserDialog1.SelectedPath;
                 textBoxPath.Text = folderName;
@@ -899,7 +901,8 @@ namespace EveCall
                         Process.Start(@folderName);
                     }
                 }
-                                
+                progressBarDirSelect.Visible = false;
+                Application.DoEvents();
                 labelPathInfo.Text = "✓ directory path is defined"+" ("+files_count.ToString()+" log files found)";
                 //recreate xml config file
                 EveCallSettings.CreateXML();
@@ -1044,6 +1047,8 @@ namespace EveCall
                 //exception block to prevent invalid path
                 try
                 {
+                    progressBarDirSelect.Visible = true;
+                    Application.DoEvents();
                     //check possible combat log files count
                     bool combatLogFilesExist = false;
                     string[] recentFilesList = Directory.GetFiles(EveCallSettings.path, "*.txt");
@@ -1071,11 +1076,15 @@ namespace EveCall
                         }
                     }
 
+                    progressBarDirSelect.Visible = false;
+                    Application.DoEvents();
                     labelPathInfo.Text = "✓ directory path is defined" + " (" + files_count.ToString() + " log files found)";
                 }
                 catch
                 {
                     //!!! todo - any action if path is not valid here?
+                    progressBarDirSelect.Visible = false;
+                    Application.DoEvents();
                 }
                 
 

@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStripNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.itemToolStripMenuItemShow = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemToolStripMenuItemToggleActive = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonToggleActive = new System.Windows.Forms.Button();
@@ -54,14 +58,12 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerCombatLog = new System.Windows.Forms.Timer(this.components);
             this.timerLogFilesUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.contextMenuStripNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.itemToolStripMenuItemToggleActive = new System.Windows.Forms.ToolStripMenuItem();
-            this.itemToolStripMenuItemShow = new System.Windows.Forms.ToolStripMenuItem();
-            this.itemToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.progressBarDirSelect = new System.Windows.Forms.ProgressBar();
+            this.contextMenuStripNotifyIcon.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -69,7 +71,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.contextMenuStripNotifyIcon.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -79,6 +80,36 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             this.notifyIcon1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseUp);
+            // 
+            // contextMenuStripNotifyIcon
+            // 
+            this.contextMenuStripNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.itemToolStripMenuItemShow,
+            this.itemToolStripMenuItemToggleActive,
+            this.itemToolStripMenuItemExit});
+            this.contextMenuStripNotifyIcon.Name = "contextMenuStripNotifyIcon";
+            this.contextMenuStripNotifyIcon.Size = new System.Drawing.Size(118, 70);
+            // 
+            // itemToolStripMenuItemShow
+            // 
+            this.itemToolStripMenuItemShow.Name = "itemToolStripMenuItemShow";
+            this.itemToolStripMenuItemShow.Size = new System.Drawing.Size(117, 22);
+            this.itemToolStripMenuItemShow.Text = "Show";
+            this.itemToolStripMenuItemShow.Click += new System.EventHandler(this.itemToolStripMenuItemShow_Click);
+            // 
+            // itemToolStripMenuItemToggleActive
+            // 
+            this.itemToolStripMenuItemToggleActive.Name = "itemToolStripMenuItemToggleActive";
+            this.itemToolStripMenuItemToggleActive.Size = new System.Drawing.Size(117, 22);
+            this.itemToolStripMenuItemToggleActive.Text = "Activate";
+            this.itemToolStripMenuItemToggleActive.Click += new System.EventHandler(this.itemToolStripMenuItemToggleActive_Click);
+            // 
+            // itemToolStripMenuItemExit
+            // 
+            this.itemToolStripMenuItemExit.Name = "itemToolStripMenuItemExit";
+            this.itemToolStripMenuItemExit.Size = new System.Drawing.Size(117, 22);
+            this.itemToolStripMenuItemExit.Text = "Exit";
+            this.itemToolStripMenuItemExit.Click += new System.EventHandler(this.itemToolStripMenuItemExit_Click);
             // 
             // openFileDialog1
             // 
@@ -134,27 +165,28 @@
             // 
             this.checkedListBoxItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkedListBoxItems.FormattingEnabled = true;
-            this.checkedListBoxItems.Location = new System.Drawing.Point(2, 60);
+            this.checkedListBoxItems.Location = new System.Drawing.Point(2, 54);
             this.checkedListBoxItems.Name = "checkedListBoxItems";
-            this.checkedListBoxItems.Size = new System.Drawing.Size(290, 124);
+            this.checkedListBoxItems.Size = new System.Drawing.Size(290, 130);
             this.checkedListBoxItems.TabIndex = 15;
             this.checkedListBoxItems.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxItems_ItemCheck);
             this.checkedListBoxItems.SelectedIndexChanged += new System.EventHandler(this.checkedListBoxItems_SelectedIndexChanged);
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.progressBarDirSelect);
             this.panel4.Controls.Add(this.labelPathInfo);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(2, 35);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(290, 25);
+            this.panel4.Size = new System.Drawing.Size(290, 19);
             this.panel4.TabIndex = 18;
             // 
             // labelPathInfo
             // 
             this.labelPathInfo.AutoSize = true;
             this.labelPathInfo.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.labelPathInfo.Location = new System.Drawing.Point(7, 4);
+            this.labelPathInfo.Location = new System.Drawing.Point(7, 1);
             this.labelPathInfo.Name = "labelPathInfo";
             this.labelPathInfo.Size = new System.Drawing.Size(149, 13);
             this.labelPathInfo.TabIndex = 8;
@@ -328,14 +360,14 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -351,9 +383,16 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // timerCombatLog
             // 
@@ -365,42 +404,16 @@
             this.timerLogFilesUpdate.Interval = 30000;
             this.timerLogFilesUpdate.Tick += new System.EventHandler(this.timerLogFilesUpdate_Tick);
             // 
-            // contextMenuStripNotifyIcon
+            // progressBarDirSelect
             // 
-            this.contextMenuStripNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.itemToolStripMenuItemShow,
-            this.itemToolStripMenuItemToggleActive,
-            this.itemToolStripMenuItemExit});
-            this.contextMenuStripNotifyIcon.Name = "contextMenuStripNotifyIcon";
-            this.contextMenuStripNotifyIcon.Size = new System.Drawing.Size(118, 70);
-            // 
-            // itemToolStripMenuItemToggleActive
-            // 
-            this.itemToolStripMenuItemToggleActive.Name = "itemToolStripMenuItemToggleActive";
-            this.itemToolStripMenuItemToggleActive.Size = new System.Drawing.Size(152, 22);
-            this.itemToolStripMenuItemToggleActive.Text = "Activate";
-            this.itemToolStripMenuItemToggleActive.Click += new System.EventHandler(this.itemToolStripMenuItemToggleActive_Click);
-            // 
-            // itemToolStripMenuItemShow
-            // 
-            this.itemToolStripMenuItemShow.Name = "itemToolStripMenuItemShow";
-            this.itemToolStripMenuItemShow.Size = new System.Drawing.Size(152, 22);
-            this.itemToolStripMenuItemShow.Text = "Show";
-            this.itemToolStripMenuItemShow.Click += new System.EventHandler(this.itemToolStripMenuItemShow_Click);
-            // 
-            // itemToolStripMenuItemExit
-            // 
-            this.itemToolStripMenuItemExit.Name = "itemToolStripMenuItemExit";
-            this.itemToolStripMenuItemExit.Size = new System.Drawing.Size(152, 22);
-            this.itemToolStripMenuItemExit.Text = "Exit";
-            this.itemToolStripMenuItemExit.Click += new System.EventHandler(this.itemToolStripMenuItemExit_Click);
-            // 
-            // checkForUpdatesToolStripMenuItem
-            // 
-            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
-            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            this.progressBarDirSelect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressBarDirSelect.Location = new System.Drawing.Point(0, 0);
+            this.progressBarDirSelect.MarqueeAnimationSpeed = 20;
+            this.progressBarDirSelect.Name = "progressBarDirSelect";
+            this.progressBarDirSelect.Size = new System.Drawing.Size(290, 19);
+            this.progressBarDirSelect.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBarDirSelect.TabIndex = 9;
+            this.progressBarDirSelect.Visible = false;
             // 
             // formMain
             // 
@@ -418,6 +431,7 @@
             this.Text = "EveCall";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formMain_FormClosing);
             this.Shown += new System.EventHandler(this.formMain_Shown);
+            this.contextMenuStripNotifyIcon.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -428,7 +442,6 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.contextMenuStripNotifyIcon.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -469,6 +482,7 @@
         private System.Windows.Forms.ToolStripMenuItem itemToolStripMenuItemShow;
         private System.Windows.Forms.ToolStripMenuItem itemToolStripMenuItemExit;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.ProgressBar progressBarDirSelect;
     }
 }
 
